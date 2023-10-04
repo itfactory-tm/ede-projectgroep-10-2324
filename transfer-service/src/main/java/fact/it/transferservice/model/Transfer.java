@@ -1,4 +1,4 @@
-package fact.it.teamservice.model;
+package fact.it.transferservice.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "teams")
+@Table(name = "transfers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Team {
+public class Transfer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

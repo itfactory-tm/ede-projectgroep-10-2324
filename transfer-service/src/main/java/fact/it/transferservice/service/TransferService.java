@@ -1,9 +1,9 @@
-package fact.it.teamservice.service;
+package fact.it.transferservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TeamService {
+public class TransferService {
 }

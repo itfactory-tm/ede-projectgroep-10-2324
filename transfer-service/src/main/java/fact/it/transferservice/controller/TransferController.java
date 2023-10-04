@@ -1,11 +1,11 @@
-package fact.it.teamservice.controller;
+package fact.it.transferservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/team")
+@RequestMapping("/api/transfer")
 @RequiredArgsConstructor
-public class TeamController {
+public class TransferController {
 }

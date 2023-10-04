@@ -55,9 +55,9 @@ jobs:
 
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_USER }}/player-service:latest
-  teamservice:
+  transferservice:
     runs-on: ubuntu-latest
-    name: Java 17 build, test, deliver team-service container
+    name: Java 17 build, test, deliver transfer-service container
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -70,17 +70,17 @@ jobs:
           distribution: adopt
         
       - name: Build, test and package project
-        working-directory: ./team-service
+        working-directory: ./transfer-service
         run: mvn package -DskipTests
         
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/team-service:latest ./team-service
+        run: docker build -t ${{ secrets.DOCKER_USER }}/transfer-service:latest ./transfer-service
 
       - name: Upload container to Docker Hub with Push
-        run: docker push ${{ secrets.DOCKER_USER }}/team-service:latest
+        run: docker push ${{ secrets.DOCKER_USER }}/transfer-service:latest
   clubservice:
     runs-on: ubuntu-latest
     name: Java 17 build, test, deliver club-service container
@@ -107,4 +107,29 @@ jobs:
 
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_USER }}/club-service:latest
+  apigateway:
+    runs-on: ubuntu-latest
+    name: Java 17 build, test, deliver ede-api-gateway container
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          cache: maven
+          distribution: adopt
+
+      - name: Build, test and package project
+        working-directory: ./api-gateway
+        run: mvn package -DskipTests
+
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker Build
+        run: docker build -t ${{ secrets.DOCKER_USER }}/ede-api-gateway:latest ./api-gateway
+
+      - name: Upload container to Docker Hub with Push
+        run: docker push ${{ secrets.DOCKER_USER }}/ede-api-gateway:latest

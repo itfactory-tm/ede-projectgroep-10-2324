@@ -1,13 +1,13 @@
-package fact.it.teamservice;
+package fact.it.transferservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TeamServiceApplicationTests {
+class TransferServiceApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

@@ -1,17 +1,15 @@
-package fact.it.playerservice.model;
+package fact.it.playerservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(value = "player")
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Data
-public class Player {
+public class PlayerResponse {
     private String id;
     private String firstName;
     private String lastName;

@@ -1,0 +1,108 @@
+services:
+ mongo-match:
+  image: mongo:latest
+  ports:
+    - 27017:27017
+  volumes:
+    - mongodb_match_data:/data/db
+    
+mongo-player:
+  image: mongo:latest
+  ports:
+    - 27018:27018
+  volumes:
+    - mongodb_player_data:/data/db
+    
+ mysql-club:
+  image: mysql:latest
+  ports:
+    - 3306:3306
+  volumes:
+    - mysql_club_data:/var/lib/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: abc123
+    
+ mysql-transfer:
+  image: mysql:latest
+  ports:
+    - 3307:3306
+  volumes:
+    - mysql_transfer_data:/var/lib/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: abc123
+    
+ match-service:
+  depends_on:
+    - mongo-match
+  image: miverboven/match-service
+  ports:
+    - 8080:8080
+  links:
+    - mongo-match
+  environment:
+   MONGODB_PORT: 27017
+   MONGODB_HOST: mongo-products
+   
+player-service:
+  depends_on:
+    - mongo-player
+  image: miverboven/player-service
+  ports:
+    - 8081:8081
+  links:
+    - mongo-player
+  environment:
+   MONGODB_PORT: 27018
+   MONGODB_HOST: mongo-player
+   
+ club-service:
+  depends_on:
+    - mysql-club
+  image: miverboven/club-service
+  ports:
+    - 8082:8082
+  links:
+    - mysql-club
+  environment:
+   MYSQL_DB_USERNAME: root
+   MYSQL_DB_PASSWORD: abc123
+   MYSQL_DB_HOST: mysql-club
+   MYSQL_DB_PORT: 3307
+
+ transfer-service:
+  depends_on:
+    - player-service
+    - club-service
+  image: miverboven/transfer-service
+  ports:
+    - 8083:8083
+  links:
+    - player-service
+    - club-service
+  environment:
+   PLAYER_SERVICE_BASEURL: player-service:8081
+   CLUB_SERVICE_BASEURL: club-service:8082
+   MYSQL_DB_USERNAME: root
+   MYSQL_DB_PASSWORD: abc123
+   MYSQL_DB_HOST: mysql-order
+   MYSQL_DB_PORT: 3306
+
+ api-gateway:
+   depends_on:
+     - transfer-service
+     - match-service
+   image: miverboven/ede-api-gateway
+   ports:
+     - 8084:8084
+   links:
+     - transfer-service
+     - match-service
+   environment:
+     TRANSFER_SERVICE_BASEURL: transfer-service:8083
+     MATCH_SERVICE_BASEURL: match-service:8080
+
+volumes:
+ mongodb_match_data:
+ mongodb_player_data:
+ mysql_club_data:
+ mysql_transfer_data:

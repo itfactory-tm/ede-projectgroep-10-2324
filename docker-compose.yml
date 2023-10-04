@@ -34,7 +34,7 @@ mongo-player:
  match-service:
   depends_on:
     - mongo-match
-  image: miverboven/match-service
+  image: ede-projectgroep-10-2324/match-service
   ports:
     - 8080:8080
   links:
@@ -46,7 +46,7 @@ mongo-player:
 player-service:
   depends_on:
     - mongo-player
-  image: miverboven/player-service
+  image: ede-projectgroep-10-2324/player-service
   ports:
     - 8081:8081
   links:
@@ -58,7 +58,7 @@ player-service:
  club-service:
   depends_on:
     - mysql-club
-  image: miverboven/club-service
+  image: ede-projectgroep-10-2324/club-service
   ports:
     - 8082:8082
   links:
@@ -73,7 +73,7 @@ player-service:
   depends_on:
     - player-service
     - club-service
-  image: miverboven/transfer-service
+  image: ede-projectgroep-10-2324/transfer-service
   ports:
     - 8083:8083
   links:
@@ -91,7 +91,7 @@ player-service:
    depends_on:
      - transfer-service
      - match-service
-   image: miverboven/ede-api-gateway
+   image: ede-projectgroep-10-2324/ede-api-gateway
    ports:
      - 8084:8084
    links:

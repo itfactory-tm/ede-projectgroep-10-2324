@@ -1,19 +1,16 @@
-package fact.it.matchservice.model;
+package fact.it.matchservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-@Document(value = "match")
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Data
-public class Match {
-    private String id;
+public class MatchRequest {
     private Date date;
 }

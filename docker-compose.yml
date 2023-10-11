@@ -9,7 +9,7 @@ services:
 mongo-player:
   image: mongo:latest
   ports:
-    - 27018:27018
+    - 27018:27017
   volumes:
     - mongodb_player_data:/data/db
     

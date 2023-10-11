@@ -16,10 +16,9 @@ public class ClubController {
     private final ClubService clubService;
 
     // http://localhost:8082/api/club?name=FC%20Barcelona&name=Real%20Madrid%20CF
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<ClubResponse> getAllClubs
-    (@RequestParam List<String> name) {
-        return clubService.getAllClubs(name);
+    @GetMapping("/all")
+    public List<ClubResponse> getAllClubs() {
+        return clubService.getAllClubs();
     }
+
 }

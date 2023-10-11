@@ -17,7 +17,7 @@ public class ClubService {
 
     @PostConstruct
     public void loadData() {
-        if(clubRepository.count() > 0) {
+        if(clubRepository.count() <= 0) {
             Club club1 = new Club();
             club1.setName("FC Barcelona");
 
@@ -30,12 +30,16 @@ public class ClubService {
     }
 
     @Transactional
-    public List<ClubResponse> getAllClubs(List<String> name) {
-        return clubRepository.findByNameIn(name).stream()
-                .map(club ->
-                    ClubResponse.builder()
-                            .name(club.getName())
-                            .build()
-                ).toList();
+    public List<ClubResponse> getAllClubs() {
+        List<Club> clubs = clubRepository.findAll();
+
+        return clubs.stream().map(this::mapToClubResponse).toList();
+    }
+
+    private ClubResponse mapToClubResponse(Club club) {
+        return ClubResponse.builder()
+                .id(club.getId())
+                .name(club.getName())
+                .build();
     }
 }

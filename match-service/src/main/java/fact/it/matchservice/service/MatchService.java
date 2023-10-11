@@ -59,6 +59,12 @@ public class MatchService {
         return matches.stream().map(this::mapToMatchResponse).toList();
     }
 
+    public void deleteMatch(String matchId){
+        if(matchRepository.existsById(matchId)){
+            matchRepository.deleteById(matchId);
+        }
+    }
+
     private MatchResponse mapToMatchResponse(Match match) {
         return MatchResponse.builder()
                 .id(match.getId())

@@ -55,6 +55,12 @@ public class PlayerService {
         return players.stream().map(this::mapToPlayerResponse).toList();
     }
 
+    public void deletePlayer(String playerId){
+        if(playerRepository.existsById(playerId)){
+            playerRepository.deleteById(playerId);
+        }
+    }
+
     private PlayerResponse mapToPlayerResponse(Player player) {
         return PlayerResponse.builder()
                 .id(player.getId())

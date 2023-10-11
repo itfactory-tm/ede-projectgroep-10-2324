@@ -17,15 +17,18 @@ public class MatchController {
     private final MatchService matchService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
     public void createMatch
             (@RequestBody MatchRequest matchRequest) {
         matchService.createMatch(matchRequest);
     }
 
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
     public List<MatchResponse> getAllMatches() {
         return matchService.getAllMatches();
+    }
+
+    @DeleteMapping("/{matchId}")
+    public void deleteMatch(@PathVariable String matchId){
+        matchService.deleteMatch(matchId);
     }
 }

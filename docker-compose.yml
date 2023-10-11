@@ -91,15 +91,21 @@ player-service:
    depends_on:
      - transfer-service
      - match-service
+     - club-service
+     - player-service
    image: ede-projectgroep-10-2324/ede-api-gateway
    ports:
      - 8084:8084
    links:
      - transfer-service
      - match-service
+     - club-service
+     - player-service
    environment:
      TRANSFER_SERVICE_BASEURL: transfer-service:8083
      MATCH_SERVICE_BASEURL: match-service:8080
+     PLAYER_SERVICE_BASEURL: player-service:8081
+     CLUB_SERVICE_BASEURL: club-service:8082
 
 volumes:
  mongodb_match_data:

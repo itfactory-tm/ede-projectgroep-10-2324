@@ -11,9 +11,80 @@ logging:
 spring:
   cloud:
     gateway:
-      - id: match-service
+      - id: match-service-all
         uri: http://${MATCH_SERVICE_BASEURL:localhost:8080}
         predicate:
           - Path=/matches
+          - Method=GET
+        filter:
+          - SetPath=/api/match/all
+      - id: match-service-post
+        uri: http://${MATCH_SERVICE_BASEURL:localhost:8080}
+        predicate:
+          - Path=/matches
+          - Method=POST
         filter:
           - SetPath=/api/match
+      - id: match-service-delete
+        uri: http://${MATCH_SERVICE_BASEURL:localhost:8080}
+        predicate:
+          - Path=/matches
+          - Method=DELETE
+        filter:
+          - SetPath=/api/match/{id}
+      - id: player-service-post
+        uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
+        predicate:
+          - Path=/players
+          - Method=POST
+        filter:
+          - SetPath=/api/player
+      - id: player-service-all
+        uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
+        predicate:
+          - Path=/players
+          - Method=GET
+        filter:
+          - SetPath=/api/player/all
+      - id: player-service-delete
+        uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
+        predicate:
+          - Path=/players
+          - Method=DELETE
+        filter:
+          - SetPath=/api/player/{id}
+      - id: club-service-post
+        uri: http://${CLUB_SERVICE_BASEURL:localhost:8082}
+        predicate:
+          - Path=/clubs
+          - Method=POST
+        filter:
+          - SetPath=/api/club
+      - id: club-service-all
+        uri: http://${CLUB_SERVICE_BASEURL:localhost:8082}
+        predicate:
+          - Path=/clubs
+          - Method=GET
+        filter:
+          - SetPath=/api/club/all
+      - id: club-service-put
+        uri: http://${CLUB_SERVICE_BASEURL:localhost:8082}
+        predicate:
+          - Path=/clubs
+          - Method=PUT
+        filter:
+          - SetPath=/api/club/{id}
+      - id: transfer-service-post
+        uri: http://${TRANSFER_SERVICE_BASEURL:localhost:8082}
+        predicate:
+          - Path=/transfers
+          - Method=POST
+        filter:
+          - SetPath=/api/transfer
+      - id: transfer-service-put
+        uri: http://${TRANSFER_SERVICE_BASEURL:localhost:8082}
+        predicate:
+          - Path=/transfers
+          - Method=PUT
+        filter:
+          - SetPath=/api/transfer/{id}

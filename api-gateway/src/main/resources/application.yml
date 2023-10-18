@@ -76,14 +76,14 @@ spring:
           filters:
             - SetPath=/api/club/{id}
         - id: transfer-service-post
-          uri: http://${TRANSFER_SERVICE_BASEURL:localhost:8082}
+          uri: http://${TRANSFER_SERVICE_BASEURL:localhost:8083}
           predicates:
             - Path=/transfers
             - Method=POST
           filters:
             - SetPath=/api/transfer
         - id: transfer-service-put
-          uri: http://${TRANSFER_SERVICE_BASEURL:localhost:8082}
+          uri: http://${TRANSFER_SERVICE_BASEURL:localhost:8083}
           predicates:
             - Path=/transfers
             - Method=PUT

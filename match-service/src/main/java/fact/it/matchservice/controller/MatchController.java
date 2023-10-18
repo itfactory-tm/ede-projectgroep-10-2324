@@ -17,10 +17,7 @@ public class MatchController {
     private final MatchService matchService;
 
     @PostMapping
-    public void createMatch
-            (@RequestBody MatchRequest matchRequest) {
-        matchService.createMatch(matchRequest);
-    }
+    public void createMatch(@RequestBody MatchRequest matchRequest) { matchService.createMatch(matchRequest); }
 
     @GetMapping("/all")
     public List<MatchResponse> getAllMatches() {

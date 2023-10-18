@@ -7,10 +7,6 @@ import fact.it.playerservice.repository.PlayerRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,17 +18,15 @@ public class PlayerService {
     @PostConstruct
     public void loadData() {
         if(playerRepository.count() <= 0){
-            Player player = Player.builder()
-                    .firstName("Jarne")
-                    .lastName("Dirken")
-                    .age(21)
-                    .build();
+            Player player = new Player();
+            player.setFirstName("Jarne");
+            player.setLastName("Dirken");
+            player.setAge(21);
 
-            Player player1 = Player.builder()
-                    .firstName("Sohaib")
-                    .lastName("Ibenhajene")
-                    .age(22)
-                    .build();
+            Player player1 = new Player();
+            player1.setFirstName("Sohaib");
+            player1.setLastName("Ibenhajene");
+            player1.setAge(21);
 
             playerRepository.save(player);
             playerRepository.save(player1);

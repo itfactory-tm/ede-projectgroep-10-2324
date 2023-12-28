@@ -9,6 +9,18 @@ logging:
     reactor.netty: TRACE
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENTID}
+            client-secret: ${GOOGLE_CLIENTSECRET}
+            scope: openid, profile, email
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+          jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
   cloud:
     gateway:
       routes:
@@ -82,10 +94,10 @@ spring:
             - Method=POST
           filters:
             - SetPath=/api/transfer
-        - id: transfer-service-put
+        - id: transfer-service-get
           uri: http://${TRANSFER_SERVICE_BASEURL:localhost:8083}
           predicates:
             - Path=/transfers
-            - Method=PUT
+            - Method=GET
           filters:
-            - SetPath=/api/transfer/{id}
+            - SetPath=/api/transfer/all

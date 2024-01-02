@@ -1,7 +1,5 @@
 package fact.it.transferservice.service;
 
-import fact.it.transferservice.dto.ClubResponse;
-import fact.it.transferservice.dto.PlayerResponse;
 import fact.it.transferservice.dto.TransferRequest;
 import fact.it.transferservice.dto.TransferResponse;
 import fact.it.transferservice.model.Club;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

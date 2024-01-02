@@ -1,4 +1,4 @@
-package fact.it.clubservice.dto;
+package fact.it.matchservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +17,4 @@ public class ClubResponse {
     private String name;
     private String country;
     private LocalDate establishDate;
-    private List<PlayerDto> playerDtoList;
 }

@@ -9,17 +9,17 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "clubs")
+@Table(name = "players")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Club {
+public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String country;
-    private LocalDate establishDate;
-
+    private int playerNumber;
+    private String firstName;
+    private String lastName;
+    private LocalDate birthDate;
 }

@@ -1,13 +1,19 @@
 package fact.it.transferservice.service;
 
+import fact.it.transferservice.dto.ClubResponse;
+import fact.it.transferservice.dto.PlayerResponse;
 import fact.it.transferservice.dto.TransferRequest;
 import fact.it.transferservice.dto.TransferResponse;
 import fact.it.transferservice.model.Club;
+import fact.it.transferservice.model.Player;
 import fact.it.transferservice.model.Transfer;
 import fact.it.transferservice.repository.TransferRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -19,17 +25,44 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TransferService {
     private final TransferRepository transferRepository;
+    private final WebClient webClient;
+    @PersistenceContext
+    private EntityManager entityManager;
 
+    @Transactional
     public void placeTransfer(TransferRequest transferRequest) {
         Transfer transfer = new Transfer();
         transfer.setTransferNumber(UUID.randomUUID().toString());
         transfer.setTransferDate(LocalDate.now());
 
-        Club newClub = new Club();
-        transferRequest.getNewClubDto().setName(newClub.getName());
+        Player player = webClient.get()
+                .uri("http://localhost:8081/api/player/",
+                        uriBuilder -> uriBuilder.queryParam("playerNumber", transferRequest.getPlayerNumber()).build())
+                .retrieve()
+                .bodyToMono(Player.class)
+                .block();
 
-        Club previousClub = new Club();
-        transferRequest.getPreviousClubDto().setName(newClub.getName());
+        Club previousClub = webClient.get()
+                .uri("http://localhost:8082/api/club",
+                        uriBuilder -> uriBuilder.queryParam("clubName", transferRequest.getPreviousTeamName()).build())
+                .retrieve()
+                .bodyToMono(Club.class)
+                .block();
+
+        Club newClub = webClient.get()
+                .uri("http://localhost:8082/api/club",
+                        uriBuilder -> uriBuilder.queryParam("clubName", transferRequest.getNewTeamName()).build())
+                .retrieve()
+                .bodyToMono(Club.class)
+                .block();
+
+        player = entityManager.merge(player);
+        previousClub = entityManager.merge(previousClub);
+        newClub = entityManager.merge(newClub);
+
+        transfer.setPlayer(player);
+        transfer.setPreviousClub(previousClub);
+        transfer.setNewClub(newClub);
 
         transferRepository.save(transfer);
     }
@@ -41,6 +74,7 @@ public class TransferService {
                 .map(transfer -> new TransferResponse(
                         transfer.getTransferNumber(),
                         transfer.getTransferDate(),
+                        transfer.getPlayer(),
                         transfer.getNewClub(),
                         transfer.getPreviousClub()
                 ))

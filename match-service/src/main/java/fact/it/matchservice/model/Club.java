@@ -1,22 +1,23 @@
-package fact.it.playerservice.model;
+package fact.it.matchservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
-@Document(value = "player")
+@Document(value = "club")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class Player {
-    private String id;
-    private int playerNumber;
-    private String firstName;
-    private String lastName;
-    private LocalDate birthDate;
+public class Club {
+    @Id
+    private Long id;
+    private String name;
+    private String country;
+    private LocalDate establishDate;
 }

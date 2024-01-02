@@ -1,4 +1,4 @@
-package fact.it.transferservice.dto;
+package fact.it.clubservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransferRequest {
+public class PlayerDto {
     private int playerNumber;
-    private String previousTeamName;
-    private String newTeamName;
+    private String firstName;
+    private String lastName;
+    private int age;
 }

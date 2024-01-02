@@ -8,4 +8,7 @@ import java.util.List;
 public interface PlayerRepository extends MongoRepository<Player, String> {
     List<Player>findByFirstName(List<String> firstName);
     List<Player>findByLastName(List<String> lastName);
+
+    List<Player> findByPlayerNumberIn(List<Integer> playerNumber);
+    Player findPlayerByPlayerNumber(Integer playerNumber);
 }

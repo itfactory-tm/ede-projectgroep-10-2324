@@ -1,4 +1,4 @@
-package fact.it.transferservice.model;
+package fact.it.clubservice.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,20 +6,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Entity
-@Table(name = "clubs")
+@Table(name = "player")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Club {
+@NoArgsConstructor
+public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String country;
-    private LocalDate establishDate;
-
+    private int playerNumber;
+    private String firstName;
+    private String lastName;
+    private int age;
 }

@@ -44,7 +44,7 @@ spring:
             - Path=/matches/{id}
             - Method=DELETE
           filters:
-            - SetPath=/api/match/{id}
+            - SetPath=/api/match/{matchId}
         - id: player-service-post
           uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
           predicates:
@@ -59,13 +59,27 @@ spring:
             - Method=GET
           filters:
             - SetPath=/api/player/all
+        - id: player-service-players
+          uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
+          predicates:
+            - Path=/players
+            - Method=GET
+          filters:
+            - SetPath=/api/player
+        - id: player-service-player
+          uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
+          predicates:
+            - Path=/players
+            - Method=GET
+          filters:
+            - SetPath=/api/player/
         - id: player-service-delete
           uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
           predicates:
             - Path=/players/{id}
             - Method=DELETE
           filters:
-            - SetPath=/api/player/{id}
+            - SetPath=/api/player/{playerId}
         - id: club-service-post
           uri: http://${CLUB_SERVICE_BASEURL:localhost:8082}
           predicates:
@@ -80,6 +94,13 @@ spring:
             - Method=GET
           filters:
             - SetPath=/api/club/all
+        - id: club-service-search-club
+          uri: http://${CLUB_SERVICE_BASEURL:localhost:8082}
+          predicates:
+            - Path=/clubs
+            - Method=GET
+          filters:
+            - SetPath=/api/club
         - id: club-service-put
           uri: http://${CLUB_SERVICE_BASEURL:localhost:8082}
           predicates:
@@ -100,4 +121,4 @@ spring:
             - Path=/transfers
             - Method=GET
           filters:
-            - SetPath=/api/transfer/all
+            - SetPath=/api/transfer

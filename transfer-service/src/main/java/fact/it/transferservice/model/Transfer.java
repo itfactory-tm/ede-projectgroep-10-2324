@@ -19,8 +19,10 @@ public class Transfer {
     private Long id;
     private String transferNumber;
     private LocalDate transferDate;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    private Player player;
+    @OneToOne(cascade = CascadeType.ALL)
     private Club previousClub;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Club newClub;
 }

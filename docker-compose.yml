@@ -33,6 +33,7 @@ mongo-player:
     
  match-service:
   depends_on:
+    - player-service
     - mongo-match
   image: ede-projectgroep-10-2324/match-service
   ports:
@@ -57,6 +58,7 @@ player-service:
    
  club-service:
   depends_on:
+    - player-service
     - mysql-club
   image: ede-projectgroep-10-2324/club-service
   ports:
@@ -73,6 +75,7 @@ player-service:
   depends_on:
     - player-service
     - club-service
+    - mysql-transfer
   image: ede-projectgroep-10-2324/transfer-service
   ports:
     - 8083:8083
@@ -84,7 +87,7 @@ player-service:
    CLUB_SERVICE_BASEURL: club-service:8082
    MYSQL_DB_USERNAME: root
    MYSQL_DB_PASSWORD: abc123
-   MYSQL_DB_HOST: mysql-order
+   MYSQL_DB_HOST: mysql-transfer
    MYSQL_DB_PORT: 3306
 
  api-gateway:

@@ -10,6 +10,7 @@ import fact.it.clubservice.repository.ClubRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -22,6 +23,8 @@ import java.util.Optional;
 public class ClubService {
     private final ClubRepository clubRepository;
     private final WebClient webClient;
+    @Value("${playerservice.baseurl}")
+    private String playerServiceBaseUrl;
 
     @PostConstruct
     public void loadData() {
@@ -51,7 +54,7 @@ public class ClubService {
                 .toList();
 
         List<PlayerResponse> players = webClient.get()
-                .uri("http://localhost:8081/api/player",
+                .uri("http://" + playerServiceBaseUrl + "/api/player",
                         uriBuilder -> uriBuilder.queryParam("playerNumber", playerNumbers).build())
                 .retrieve()
                 .bodyToFlux(PlayerResponse.class)
@@ -72,7 +75,7 @@ public class ClubService {
         player.setPlayerNumber(playerResponse.getPlayerNumber());
         player.setFirstName(playerResponse.getFirstName());
         player.setLastName(playerResponse.getLastName());
-        player.setAge(playerResponse.getAge());
+        player.setBirthDate(playerResponse.getBirthDate());
         return player;
     }
 
@@ -100,7 +103,7 @@ public class ClubService {
 
     private Player mapToDto(PlayerDto playerDto) {
         Player player = new Player();
-        player.setAge(playerDto.getAge());
+        player.setBirthDate(playerDto.getBirthDate());
         player.setFirstName(playerDto.getFirstName());
         player.setLastName(playerDto.getLastName());
         return player;
@@ -128,7 +131,7 @@ public class ClubService {
     }
 
     private PlayerDto mapPlayerToDto(Player player) {
-        return new PlayerDto(player.getPlayerNumber(), player.getFirstName(), player.getLastName(), player.getAge());
+        return new PlayerDto(player.getPlayerNumber(), player.getFirstName(), player.getLastName(), player.getBirthDate());
     }
 
     @Transactional

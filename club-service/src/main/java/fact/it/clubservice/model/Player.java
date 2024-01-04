@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "player")
 @Getter
@@ -19,5 +21,5 @@ public class Player {
     private int playerNumber;
     private String firstName;
     private String lastName;
-    private int age;
+    private LocalDate birthDate;
 }

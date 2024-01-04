@@ -7,6 +7,7 @@ import fact.it.matchservice.model.Match;
 import fact.it.matchservice.repository.MatchRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,6 +24,9 @@ public class MatchService {
 
     private final MatchRepository matchRepository;
     private final WebClient webClient;
+
+    @Value("${clubservice.baseurl}")
+    private String clubServiceBaseUrl;
 
     @PostConstruct
     public void loadData() {
@@ -65,14 +69,14 @@ public class MatchService {
 
     public void createMatch(MatchRequest matchRequest){
         Club club1 = webClient.get()
-                .uri("http://localhost:8082/api/club",
+                .uri("http://" + clubServiceBaseUrl + "/api/club",
                         uriBuilder -> uriBuilder.queryParam("clubName", matchRequest.getHomeTeamName()).build())
                 .retrieve()
                 .bodyToMono(Club.class)
                 .block();
 
         Club club2 = webClient.get()
-                .uri("http://localhost:8082/api/club",
+                .uri("http://" + clubServiceBaseUrl + "/api/club",
                         uriBuilder -> uriBuilder.queryParam("clubName", matchRequest.getAwayTeamName()).build())
                 .retrieve()
                 .bodyToMono(Club.class)

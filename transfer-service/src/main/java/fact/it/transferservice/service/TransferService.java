@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -26,6 +27,12 @@ public class TransferService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Value("${playerservice.baseurl}")
+    private String playerServiceBaseUrl;
+
+    @Value("${clubservice.baseurl}")
+    private String clubServiceBaseUrl;
+
     @Transactional
     public void placeTransfer(TransferRequest transferRequest) {
         Transfer transfer = new Transfer();
@@ -33,21 +40,21 @@ public class TransferService {
         transfer.setTransferDate(LocalDate.now());
 
         Player player = webClient.get()
-                .uri("http://localhost:8081/api/player/",
+                .uri("http://" + playerServiceBaseUrl + "/api/player/",
                         uriBuilder -> uriBuilder.queryParam("playerNumber", transferRequest.getPlayerNumber()).build())
                 .retrieve()
                 .bodyToMono(Player.class)
                 .block();
 
         Club previousClub = webClient.get()
-                .uri("http://localhost:8082/api/club",
+                .uri("http://" + clubServiceBaseUrl + "/api/club",
                         uriBuilder -> uriBuilder.queryParam("clubName", transferRequest.getPreviousTeamName()).build())
                 .retrieve()
                 .bodyToMono(Club.class)
                 .block();
 
         Club newClub = webClient.get()
-                .uri("http://localhost:8082/api/club",
+                .uri("http://" + clubServiceBaseUrl + "/api/club",
                         uriBuilder -> uriBuilder.queryParam("clubName", transferRequest.getNewTeamName()).build())
                 .retrieve()
                 .bodyToMono(Club.class)

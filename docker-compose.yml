@@ -20,7 +20,7 @@ services:
   volumes:
     - mysql_club_data:/var/lib/mysql
   environment:
-   MYSQL_ROOT_PASSWORD: abc123
+   MYSQL_ROOT_PASSWORD: root
     
  mysql-transfer:
   image: mysql:latest
@@ -29,7 +29,7 @@ services:
   volumes:
     - mysql_transfer_data:/var/lib/mysql
   environment:
-   MYSQL_ROOT_PASSWORD: abc123
+   MYSQL_ROOT_PASSWORD: root
     
  match-service:
   depends_on:
@@ -67,9 +67,9 @@ services:
     - mysql-club
   environment:
    MYSQL_DB_USERNAME: root
-   MYSQL_DB_PASSWORD: abc123
+   MYSQL_DB_PASSWORD: root
    MYSQL_DB_HOST: mysql-club
-   MYSQL_DB_PORT: 3309
+   MYSQL_DB_PORT: 3306
 
  transfer-service:
   depends_on:
@@ -86,9 +86,9 @@ services:
    PLAYER_SERVICE_BASEURL: player-service:8081
    CLUB_SERVICE_BASEURL: club-service:8082
    MYSQL_DB_USERNAME: root
-   MYSQL_DB_PASSWORD: abc123
+   MYSQL_DB_PASSWORD: root
    MYSQL_DB_HOST: mysql-transfer
-   MYSQL_DB_PORT: 3308
+   MYSQL_DB_PORT: 3306
 
  api-gateway:
    depends_on:

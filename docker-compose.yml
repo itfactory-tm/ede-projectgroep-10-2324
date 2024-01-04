@@ -1,10 +1,10 @@
 services:
-#  mongo-match:
-#   image: mongo:latest
-#   ports:
-#     - 27017:27017
-#   volumes:
-#     - mongodb_match_data:/data/db
+ mongo-match:
+  image: mongo:latest
+  ports:
+    - 27017:27017
+  volumes:
+    - mongodb_match_data:/data/db
     
  mongo-player:
   image: mongo:latest
@@ -13,36 +13,39 @@ services:
   volumes:
     - mongodb_player_data:/data/db
     
-#  mysql-club:
-#   image: mysql:latest
-#   ports:
-#     - 3309:3306
-#   volumes:
-#     - mysql_club_data:/var/lib/mysql
-#   environment:
-#    MYSQL_ROOT_PASSWORD: root
+ mysql-club:
+  image: mysql:latest
+  ports:
+    - 3307:3306
+  volumes:
+    - mysql_club_data:/var/lib/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: root
     
-#  mysql-transfer:
-#   image: mysql:latest
-#   ports:
-#     - 3308:3306
-#   volumes:
-#     - mysql_transfer_data:/var/lib/mysql
-#   environment:
-#    MYSQL_ROOT_PASSWORD: root
+ mysql-transfer:
+  image: mysql:latest
+  ports:
+    - 3308:3306
+  volumes:
+    - mysql_transfer_data:/var/lib/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: root
     
-#  match-service:
-#   depends_on:
-#     - player-service
-#     - mongo-match
-#   image: enre0333/match-service
-#   ports:
-#     - 8080:8080
-#   links:
-#     - mongo-match
-#   environment:
-#    MONGODB_PORT: 27017
-#    MONGODB_HOST: mongo-products
+ match-service:
+  depends_on:
+    - player-service
+    - club-service
+    - mongo-match
+  image: enre0333/match-service
+  ports:
+    - 8080:8080
+  links:
+    - mongo-match
+  environment:
+   MONGODB_PORT: 27017
+   MONGODB_HOST: mongo-match
+   PLAYER_SERVICE_BASEURL: player-service:8081
+   CLUB_SERVICE_BASEURL: club-service:8082
    
  player-service:
   depends_on:
@@ -53,65 +56,66 @@ services:
   links:
     - mongo-player
   environment:
-   MONGODB_PORT: 27018
+   MONGODB_PORT: 27017
    MONGODB_HOST: mongo-player
    
-#  club-service:
-#   depends_on:
-#     - player-service
-#     - mysql-club
-#   image: enre0333/club-service
-#   ports:
-#     - 8082:8082
-#   links:
-#     - mysql-club
-#   environment:
-#    MYSQL_DB_USERNAME: root
-#    MYSQL_DB_PASSWORD: root
-#    MYSQL_DB_HOST: mysql-club
-#    MYSQL_DB_PORT: 3306
+ club-service:
+  depends_on:
+    - player-service
+    - mysql-club
+  image: enre0333/club-service
+  ports:
+    - 8082:8082
+  links:
+    - mysql-club
+  environment:
+   MYSQL_DB_USERNAME: root
+   MYSQL_DB_PASSWORD:
+   MYSQL_DB_HOST: mysql-club
+   MYSQL_DB_PORT: 3306
+   PLAYER_SERVICE_BASEURL: player-service:8081
 
-#  transfer-service:
-#   depends_on:
-#     - player-service
-#     - club-service
-#     - mysql-transfer
-#   image: enre0333/transfer-service
-#   ports:
-#     - 8083:8083
-#   links:
-#     - player-service
-#     - club-service
-#   environment:
-#    PLAYER_SERVICE_BASEURL: player-service:8081
-#    CLUB_SERVICE_BASEURL: club-service:8082
-#    MYSQL_DB_USERNAME: root
-#    MYSQL_DB_PASSWORD: root
-#    MYSQL_DB_HOST: mysql-transfer
-#    MYSQL_DB_PORT: 3306
+ transfer-service:
+  depends_on:
+    - player-service
+    - club-service
+    - mysql-transfer
+  image: enre0333/transfer-service
+  ports:
+    - 8083:8083
+  links:
+    - player-service
+    - club-service
+  environment:
+   MYSQL_DB_USERNAME: root
+   MYSQL_DB_PASSWORD:
+   MYSQL_DB_HOST: mysql-transfer
+   MYSQL_DB_PORT: 3306
+   PLAYER_SERVICE_BASEURL: player-service:8081
+   CLUB_SERVICE_BASEURL: club-service:8082
 
-#  api-gateway:
-#    depends_on:
-#      - transfer-service
-#      - match-service
-#      - club-service
-#      - player-service
-#    image: enre0333/ede-api-gateway
-#    ports:
-#      - 8084:8084
-#    links:
-#      - transfer-service
-#      - match-service
-#      - club-service
-#      - player-service
-#    environment:
-#      TRANSFER_SERVICE_BASEURL: transfer-service:8083
-#      MATCH_SERVICE_BASEURL: match-service:8080
-#      PLAYER_SERVICE_BASEURL: player-service:8081
-#      CLUB_SERVICE_BASEURL: club-service:8082
+ api-gateway:
+   depends_on:
+     - transfer-service
+     - match-service
+     - club-service
+     - player-service
+   image: enre0333/ede-api-gateway
+   ports:
+     - 8084:8084
+   links:
+     - transfer-service
+     - match-service
+     - club-service
+     - player-service
+   environment:
+     TRANSFER_SERVICE_BASEURL: transfer-service:8083
+     MATCH_SERVICE_BASEURL: match-service:8080
+     PLAYER_SERVICE_BASEURL: player-service:8081
+     CLUB_SERVICE_BASEURL: club-service:8082
 
 volumes:
-#  mongodb_match_data:
+ mongodb_match_data:
  mongodb_player_data:
-#  mysql_club_data:
-#  mysql_transfer_data:
+ mysql_club_data:
+ mysql_transfer_data:

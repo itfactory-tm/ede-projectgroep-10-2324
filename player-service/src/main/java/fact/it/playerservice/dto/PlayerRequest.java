@@ -1,5 +1,6 @@
 package fact.it.playerservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +15,6 @@ import java.time.LocalDate;
 public class PlayerRequest {
     private String firstName;
     private String lastName;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
 }

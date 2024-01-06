@@ -21,5 +21,4 @@ public class Club {
     private String name;
     private String country;
     private LocalDate establishDate;
-
 }

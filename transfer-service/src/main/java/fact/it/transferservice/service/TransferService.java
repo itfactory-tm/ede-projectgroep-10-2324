@@ -1,5 +1,7 @@
 package fact.it.transferservice.service;
 
+import fact.it.transferservice.dto.ClubResponse;
+import fact.it.transferservice.dto.PlayerResponse;
 import fact.it.transferservice.dto.TransferRequest;
 import fact.it.transferservice.dto.TransferResponse;
 import fact.it.transferservice.model.Club;
@@ -39,36 +41,57 @@ public class TransferService {
         transfer.setTransferNumber(UUID.randomUUID().toString());
         transfer.setTransferDate(LocalDate.now());
 
-        Player player = webClient.get()
+        PlayerResponse player = webClient.get()
                 .uri("http://" + playerServiceBaseUrl + "/api/player/",
                         uriBuilder -> uriBuilder.queryParam("playerNumber", transferRequest.getPlayerNumber()).build())
                 .retrieve()
-                .bodyToMono(Player.class)
+                .bodyToMono(PlayerResponse.class)
                 .block();
 
-        Club previousClub = webClient.get()
+        ClubResponse previousClub = webClient.get()
                 .uri("http://" + clubServiceBaseUrl + "/api/club",
                         uriBuilder -> uriBuilder.queryParam("clubName", transferRequest.getPreviousTeamName()).build())
                 .retrieve()
-                .bodyToMono(Club.class)
+                .bodyToMono(ClubResponse.class)
                 .block();
 
-        Club newClub = webClient.get()
+        ClubResponse newClub = webClient.get()
                 .uri("http://" + clubServiceBaseUrl + "/api/club",
                         uriBuilder -> uriBuilder.queryParam("clubName", transferRequest.getNewTeamName()).build())
                 .retrieve()
-                .bodyToMono(Club.class)
+                .bodyToMono(ClubResponse.class)
                 .block();
 
-        player = entityManager.merge(player);
-        previousClub = entityManager.merge(previousClub);
-        newClub = entityManager.merge(newClub);
+//        player = entityManager.merge(player);
+//        previousClub = entityManager.merge(previousClub);
+//        newClub = entityManager.merge(newClub);
 
-        transfer.setPlayer(player);
-        transfer.setPreviousClub(previousClub);
-        transfer.setNewClub(newClub);
+        assert player != null;
+        assert previousClub != null;
+        assert newClub != null;
+
+        transfer.setPlayer(mapPlayerResponseToEntity(player));
+        transfer.setPreviousClub(mapClubResponseToEntity(previousClub));
+        transfer.setNewClub(mapClubResponseToEntity(newClub));
 
         transferRepository.save(transfer);
+    }
+
+    private Player mapPlayerResponseToEntity(PlayerResponse playerResponse) {
+        Player player = new Player();
+        player.setPlayerNumber(playerResponse.getPlayerNumber());
+        player.setFirstName(playerResponse.getFirstName());
+        player.setLastName(playerResponse.getLastName());
+        player.setBirthDate(playerResponse.getBirthDate());
+        return player;
+    }
+
+    private Club mapClubResponseToEntity(ClubResponse clubResponse) {
+        Club club = new Club();
+        club.setName(clubResponse.getName());
+        club.setCountry(clubResponse.getCountry());
+        club.setEstablishDate(clubResponse.getEstablishDate());
+        return club;
     }
 
     public List<TransferResponse> getAllTransfers() {

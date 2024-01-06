@@ -95,7 +95,7 @@ class ClubServiceApplicationTests {
 		clubService.createClub(clubRequest);
 
 		// Assert
-		verify(clubRepository, times(0)).save(club);
+		verify(clubRepository, times(1)).save(any(Club.class));
 	}
 
 	@Test

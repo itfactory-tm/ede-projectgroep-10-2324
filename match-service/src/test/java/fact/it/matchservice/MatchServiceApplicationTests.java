@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -52,122 +53,131 @@ class MatchServiceApplicationTests {
 	}
 	@Test
 	public void testCreateMatch() {
-		// arrange
+		// Arrange
 		MatchRequest matchRequest = new MatchRequest();
-		matchRequest.setHomeTeamName("Gangsters");
-		matchRequest.setHomeTeamScore(100);
-		matchRequest.setAwayTeamName("Losers");
-		matchRequest.setAwayTeamScore(0);
-		LocalDate date = LocalDate.now();
-		matchRequest.setDate(date);
+		matchRequest.setHomeTeamName("Manchester City");
+		matchRequest.setHomeTeamScore(3);
+		matchRequest.setAwayTeamName("FC Barcelona");
+		matchRequest.setAwayTeamScore(1);
+		matchRequest.setDate(LocalDate.of(2024, 1, 4));
 
-		ClubResponse clubResponse = new ClubResponse();
-		clubResponse.setCountry("England");
-		clubResponse.setName("Manchester City");
-		clubResponse.setEstablishDate(LocalDate.of(2023, 2, 6)); // Set the desired date
-		clubResponse.setId(1L);
+		ClubResponse homeClubResponse = new ClubResponse();
+		homeClubResponse.setCountry("England");
+		homeClubResponse.setName("Manchester City");
+		homeClubResponse.setEstablishDate(LocalDate.of(1998, 3, 14)); // Set the desired date
+		homeClubResponse.setId(1L);
 
-		Club club = new Club();
-		club.setId(1L);
-		club.setEstablishDate(LocalDate.of(1975, 10, 11));
-		club.setCountry("England");
-		club.setName("Manchester City");
+		ClubResponse awayClubResponse = new ClubResponse();
+		awayClubResponse.setCountry("Spain");
+		awayClubResponse.setName("FC Barcelona");
+		awayClubResponse.setEstablishDate(LocalDate.of(1967, 7, 28)); // Set the desired date
+		awayClubResponse.setId(2L);
 
-		Club club2 = new Club();
-		club2.setId(2L);
-		club2.setEstablishDate(LocalDate.of(1975, 10, 11));
-		club2.setCountry("Spain");
-		club2.setName("Barcelona");
 
 		Match match = new Match();
 		match.setId("1");
-		match.setHomeTeam(club);
-		match.setHomeTeamScore(100);
-		match.setAwayTeam(club2);
-		match.setAwayTeamScore(0);
-		match.setDate(date);
+		match.setHomeTeamScore(3);
+		match.setAwayTeamScore(1);
+		match.setDate(LocalDate.of(2024, 1, 4));
+
+		Club homeClub = new Club();
+		homeClub.setCountry("England");
+		homeClub.setName("Manchester City");
+		homeClub.setEstablishDate(LocalDate.of(1998, 3, 14));
+		homeClub.setId(1L);
+
+		Club awayClub = new Club();
+		awayClub.setCountry("Spain");
+		awayClub.setName("FC Barcelona");
+		awayClub.setEstablishDate(LocalDate.of(1967, 7, 28));
+		awayClub.setId(2L);
+
+		match.setHomeTeam(homeClub);
+		match.setAwayTeam(awayClub);
 
 		when(matchRepository.save(any(Match.class))).thenReturn(match);
 
 		when(webClient.get()).thenReturn(requestHeadersUriSpec);
 		when(requestHeadersUriSpec.uri(anyString(), any(Function.class))).thenReturn(requestHeadersSpec);
 		when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-		when(responseSpec.bodyToFlux(ClubResponse.class)).thenReturn(Flux.just(clubResponse));
+		when(responseSpec.bodyToMono(ClubResponse.class)).thenReturn(Mono.just(homeClubResponse));
+		when(responseSpec.bodyToMono(ClubResponse.class)).thenReturn(Mono.just(awayClubResponse));
 
-		// act
+		// Act
 		matchService.createMatch(matchRequest);
 
-		// assert
-		verify(matchRepository, times(0)).save(match);
+		// Assert
+		verify(matchRepository, times(1)).save(any(Match.class));
 	}
 
 	@Test
 	public void testGetAllMatches(){
-		// arrange
-		Club club = new Club();
-		club.setId(1L);
-		club.setEstablishDate(LocalDate.of(1975, 10, 11));
-		club.setCountry("England");
-		club.setName("Manchester City");
+		// Arrange
+		Club homeClub = new Club();
+		homeClub.setId(1L);
+		homeClub.setEstablishDate(LocalDate.of(1975, 10, 11));
+		homeClub.setCountry("England");
+		homeClub.setName("Manchester City");
 
-		Club club2 = new Club();
-		club2.setId(2L);
-		club2.setEstablishDate(LocalDate.of(1975, 10, 11));
-		club2.setCountry("Spain");
-		club2.setName("Barcelona");
+		Club awayClub = new Club();
+		awayClub.setId(2L);
+		awayClub.setEstablishDate(LocalDate.of(1975, 10, 11));
+		awayClub.setCountry("Spain");
+		awayClub.setName("Barcelona");
 
 		Match match = new Match();
 		match.setId("1");
-		match.setDate(LocalDate.of(2003, 12, 24));
-		match.setHomeTeam(club);
-		match.setAwayTeam(club2);
+		match.setDate(LocalDate.of(2024, 1, 4));
+		match.setHomeTeam(homeClub);
+		match.setAwayTeam(awayClub);
 		match.setHomeTeamScore(2);
 		match.setAwayTeamScore(1);
 
 		when(matchRepository.findAll()).thenReturn(Arrays.asList(match));
 
-		// act
+		// Act
 		List<MatchResponse> matches = matchService.getAllMatches();
 
-		// assert
+		// Assert
 		assertEquals(1, matches.size());
-		assertEquals(LocalDate.of(2003, 12, 24), matches.get(0).getDate());
+		assertEquals(LocalDate.of(2024, 1, 4), matches.get(0).getDate());
 		assertEquals(2, matches.get(0).getHomeTeamScore());
 		assertEquals(1, matches.get(0).getAwayTeamScore());
-		assertEquals(club, matches.get(0).getHomeTeam());
-		assertEquals(club2, matches.get(0).getAwayTeam());
+		assertEquals(homeClub, matches.get(0).getHomeTeam());
+		assertEquals(awayClub, matches.get(0).getAwayTeam());
 
 		verify(matchRepository, times(1)).findAll();
 	}
 	@Test
-	public void testGetMatch() {
-		// arrange
-		Club club = new Club();
-		club.setId(1L);
-		club.setEstablishDate(LocalDate.of(1975, 10, 11));
-		club.setCountry("England");
-		club.setName("Manchester City");
+	public void testDeleteMatch() {
+		// Arrange
+		Club homeClub = new Club();
+		homeClub.setId(1L);
+		homeClub.setEstablishDate(LocalDate.of(1975, 10, 11));
+		homeClub.setCountry("England");
+		homeClub.setName("Manchester City");
 
-		Club club2 = new Club();
-		club2.setId(2L);
-		club2.setEstablishDate(LocalDate.of(1975, 10, 11));
-		club2.setCountry("Spain");
-		club2.setName("Barcelona");
+		Club awayClub = new Club();
+		awayClub.setId(2L);
+		awayClub.setEstablishDate(LocalDate.of(1975, 10, 11));
+		awayClub.setCountry("Spain");
+		awayClub.setName("Barcelona");
 
 		Match match = new Match();
 		match.setId("1");
-		match.setDate(LocalDate.of(2003, 12, 24));
-		match.setHomeTeam(club);
-		match.setAwayTeam(club2);
+		match.setDate(LocalDate.of(2024, 1, 4));
+		match.setHomeTeam(homeClub);
+		match.setAwayTeam(awayClub);
 		match.setHomeTeamScore(2);
 		match.setAwayTeamScore(1);
 
+		when(matchRepository.existsById("1")).thenReturn(true);
 
-		when(matchRepository.findByDate(LocalDate.of(2003, 12, 24)).thenReturn(match);
+		// Act
+		matchService.deleteMatch("1");
 
-		// act
-
-		// assert
-
+		// Assert
+		verify(matchRepository, times(1)).existsById("1");
+		verify(matchRepository, times(1)).deleteById("1");
 	}
 }

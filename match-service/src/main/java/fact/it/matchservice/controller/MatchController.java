@@ -17,7 +17,10 @@ public class MatchController {
     private final MatchService matchService;
 
     @PostMapping
-    public void createMatch(@RequestBody MatchRequest matchRequest) { matchService.createMatch(matchRequest); }
+    public String createMatch(@RequestBody MatchRequest matchRequest) {
+        matchService.createMatch(matchRequest);
+        return "Match created successfully";
+    }
 
     @GetMapping("/all")
     public List<MatchResponse> getAllMatches() {
@@ -25,7 +28,8 @@ public class MatchController {
     }
 
     @DeleteMapping("/{matchId}")
-    public void deleteMatch(@PathVariable String matchId){
+    public String deleteMatch(@PathVariable String matchId){
         matchService.deleteMatch(matchId);
+        return "Match deleted successfully";
     }
 }

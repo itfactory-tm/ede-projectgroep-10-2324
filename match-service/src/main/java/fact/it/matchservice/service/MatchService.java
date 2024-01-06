@@ -1,5 +1,6 @@
 package fact.it.matchservice.service;
 
+import fact.it.matchservice.dto.ClubResponse;
 import fact.it.matchservice.dto.MatchRequest;
 import fact.it.matchservice.dto.MatchResponse;
 import fact.it.matchservice.model.Club;
@@ -68,28 +69,40 @@ public class MatchService {
     }
 
     public void createMatch(MatchRequest matchRequest){
-        Club club1 = webClient.get()
+        ClubResponse club1 = webClient.get()
                 .uri("http://" + clubServiceBaseUrl + "/api/club",
                         uriBuilder -> uriBuilder.queryParam("clubName", matchRequest.getHomeTeamName()).build())
                 .retrieve()
-                .bodyToMono(Club.class)
+                .bodyToMono(ClubResponse.class)
                 .block();
 
-        Club club2 = webClient.get()
+        ClubResponse club2 = webClient.get()
                 .uri("http://" + clubServiceBaseUrl + "/api/club",
                         uriBuilder -> uriBuilder.queryParam("clubName", matchRequest.getAwayTeamName()).build())
                 .retrieve()
-                .bodyToMono(Club.class)
+                .bodyToMono(ClubResponse.class)
                 .block();
+
+        assert club1 != null;
+        assert club2 != null;
 
         Match match = Match.builder()
                 .date(matchRequest.getDate())
-                .homeTeam(club1)
-                .awayTeam(club2)
+                .homeTeam(mapClubResponseToEntity(club1))
+                .awayTeam(mapClubResponseToEntity(club2))
                 .homeTeamScore(matchRequest.getHomeTeamScore())
                 .awayTeamScore(matchRequest.getAwayTeamScore())
                 .build();
         matchRepository.save(match);
+    }
+
+    private Club mapClubResponseToEntity(ClubResponse clubResponse) {
+        Club club = new Club();
+        club.setId(clubResponse.getId());
+        club.setName(clubResponse.getName());
+        club.setCountry(clubResponse.getCountry());
+        club.setEstablishDate(clubResponse.getEstablishDate());
+        return club;
     }
 
     public List<MatchResponse> getAllMatches() {

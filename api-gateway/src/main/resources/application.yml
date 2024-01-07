@@ -97,7 +97,7 @@ spring:
         - id: club-service-search-club
           uri: http://${CLUB_SERVICE_BASEURL:localhost:8082}
           predicates:
-            - Path=/clubs
+            - Path=/club
             - Method=GET
           filters:
             - SetPath=/api/club

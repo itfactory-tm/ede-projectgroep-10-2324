@@ -73,7 +73,7 @@ Because the okteto hosting didn't work at the time of making this project. We di
 We secrured our API gateway with 0Auth2. This way you can only do the basic function without being autorized (like view all the upcomming matches, view all the clubs and players). But it's not possible for anyone to delete a club, edit, etc... .
 
 ![0Auth2 Security Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/0AuthCode.png?raw=true)
-![0Auth2 Security Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/tree/main/images/0AuthAccepted.png?raw=true)
+![0Auth2 Security Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/0AuthAccepted.png?raw=true)
 
 ### without key
 

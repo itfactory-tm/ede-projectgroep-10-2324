@@ -104,7 +104,7 @@ spring:
         - id: club-service-put
           uri: http://${CLUB_SERVICE_BASEURL:localhost:8082}
           predicates:
-            - Path=/clubs
+            - Path=/club/{id}
             - Method=PUT
           filters:
             - SetPath=/api/club/{id}

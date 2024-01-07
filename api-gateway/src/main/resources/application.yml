@@ -62,14 +62,14 @@ spring:
         - id: player-service-players
           uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
           predicates:
-            - Path=/players
+            - Path=/playerlist
             - Method=GET
           filters:
             - SetPath=/api/player
         - id: player-service-player
           uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
           predicates:
-            - Path=/players
+            - Path=/player
             - Method=GET
           filters:
             - SetPath=/api/player/

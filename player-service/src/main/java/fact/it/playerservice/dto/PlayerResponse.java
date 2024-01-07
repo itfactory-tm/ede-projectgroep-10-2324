@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlayerResponse {
+    private String id;
     private int playerNumber;
     private String firstName;
     private String lastName;

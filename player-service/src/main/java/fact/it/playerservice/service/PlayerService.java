@@ -83,6 +83,7 @@ public class PlayerService {
 
     private PlayerResponse mapToPlayerResponse(Player player) {
         return PlayerResponse.builder()
+                .id(player.getId())
                 .playerNumber(player.getPlayerNumber())
                 .firstName(player.getFirstName())
                 .lastName(player.getLastName())

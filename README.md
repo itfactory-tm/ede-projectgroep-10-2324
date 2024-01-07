@@ -123,8 +123,17 @@ Delete A Match
 Get All Players
 ![GetAllPlayers Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/GetAllPlayers.png?raw=true)
 
+Get Specific PlayerList
+![GetPlayerList Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/GetPlayerList.png?raw=true)
+
 Get One Player
 ![GetOnePlayer Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/GetOnePlayer.png?raw=true)
+
+Create a Player
+![CreatePlayer Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/CreatePlayer.png?raw=true)
+
+The Player has now been created
+![CreatedPlayer Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/CreatedPlayer.png?raw=true)
 
 Delete A Player
 ![DeletePlayer Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/DeletePlayer.png?raw=true)

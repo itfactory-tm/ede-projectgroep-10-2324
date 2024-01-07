@@ -18,8 +18,9 @@ public class PlayerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPlayer(@RequestBody PlayerRequest playerRequest) {
+    public String createPlayer(@RequestBody PlayerRequest playerRequest) {
         playerService.createPlayer(playerRequest);
+        return "Player created successfully";
     }
 
     @GetMapping("/all")
@@ -42,7 +43,8 @@ public class PlayerController {
 
     @DeleteMapping("/{playerId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deletePlayer(@PathVariable String playerId){
+    public String deletePlayer(@PathVariable String playerId){
         playerService.deletePlayer(playerId);
+        return "Player deleted successfully";
     }
 }

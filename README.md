@@ -98,10 +98,16 @@ Get All Clubs
 Get Club by name
 ![GetOneClub Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/GetClubByName.png?raw=true)
 
-Edit club
+Create a Club
+![CreateClub Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/CreateClub.png?raw=true)
+
+The Club has now been created
+![CreatedClub Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/CreatedClub.png?raw=true)
+
+Edit Club
 ![EditClub Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/EditClub.png?raw=true)
 
-The second club has now been updated
+The second Club has now been updated
 ![EditedClub Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/EditedClub.png?raw=true)
 
 ### Match requests
@@ -140,9 +146,11 @@ Delete A Player
 
 ### Transfer requests
 
+Create a Transfer
+![CreateTransfer Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/CreateTransfer.png?raw=true)
+
 Get All Transfers
 ![GetAllTransfers Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/GetAllTransfers.png?raw=true)
-(In this example were there no transfers so we got an empty array back)
 
 ## Unit tests
 
@@ -166,6 +174,6 @@ Of course we used Unit tests. Here you can see that we did unit tests in all of 
 
 ## Conclusion
 
-We found this project useful and fun.
+We found this project to be really challenging, but at the same time also very fun. We gained a lot of new knowledge from this project.
 
 #itfactory #thomasmore

@@ -1,6 +1,6 @@
 # Enterprise Development Project - group 10
 
-## Subject: Voetbal
+## Subject: Football
 
 ## Team members:
 

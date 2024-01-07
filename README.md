@@ -101,13 +101,19 @@ Get Club by name
 Edit club
 ![EditClub Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/EditClub.png?raw=true)
 
+The second club has now been updated
+![EditedClub Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/EditedClub.png?raw=true)
+
 ### Match requests
 
 Get All Matches
 ![GetAllMatches Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/GetAllMatches.png?raw=true)
 
-Get One Match
-![GetOneMatch Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/GetOneMatch.png?raw=true)
+Create a Match
+![CreateMatch Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/CreateMatch.png?raw=true)
+
+The Match has now been created
+![CreatedMatch Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/CreatedMatch.png?raw=true)
 
 Delete A Match
 ![DeleteMatch Image](https://github.com/itfactory-tm/ede-projectgroep-10-2324/blob/main/images/DeleteMatch.png?raw=true)

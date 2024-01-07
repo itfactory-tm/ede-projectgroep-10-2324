@@ -41,7 +41,7 @@ spring:
         - id: match-service-delete
           uri: http://${MATCH_SERVICE_BASEURL:localhost:8080}
           predicates:
-            - Path=/matches/{id}
+            - Path=/matches/{matchId}
             - Method=DELETE
           filters:
             - SetPath=/api/match/{matchId}
@@ -76,7 +76,7 @@ spring:
         - id: player-service-delete
           uri: http://${PLAYER_SERVICE_BASEURL:localhost:8081}
           predicates:
-            - Path=/players/{id}
+            - Path=/players/{playerId}
             - Method=DELETE
           filters:
             - SetPath=/api/player/{playerId}

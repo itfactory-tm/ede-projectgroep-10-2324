@@ -10,13 +10,13 @@
 ## Contents
 
 - [Introduction](#introduction)
-- [Architecture](#acrtitecture)
+- [Architecture](#architecture)
 - [Github Repositories](#github-repositories)
-- [CI-CD pipline](#ci-cd-pipeline)
+- [CI-CD pipeline](#ci-cd-pipeline)
 - [GitHub Actions](#github-actions)
 - [Docker Compose](#docker-compose)
 - [Docker Desktop](#docker-desktop)
-- [0Auth2 Security](#0auth-security)
+- [0Auth2 Security](#0auth2-security)
 - [Postman](#postman)
 - [Unit tests](#unit-tests)
 - [Conclusion](#conclusion)
@@ -48,7 +48,7 @@ Our application has the following achitecture:
 - [Api Gateway](https://github.com/itfactory-tm/ede-projectgroep-10-2324/tree/main/api-gateway)
 - [Docker compose](https://github.com/itfactory-tm/ede-projectgroep-10-2324/tree/main/docker-compose.yml)
 
-## CI-CD pipline
+## CI-CD pipeline
 
 ### GitHub Actions
 
